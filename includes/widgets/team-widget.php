@@ -122,7 +122,7 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
                 'label' => 'Post Type',
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => $options,
-                'default' => 'post'
+                'default' => isset($options['ws_team']) ? 'ws_team' : 'post'
             ]
         );
 
