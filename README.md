@@ -11,10 +11,13 @@ WS Team Showcase Plugin adds a customizable Elementor widget for displaying team
 
 - WordPress
 - Elementor
-- Advanced Custom Fields, if using the included custom team fields
+- Advanced Custom Fields, required for the automatic team post type fields
 
 ## Features
 
+- Automatic Team Members post type when ACF is active
+- Automatic Team Categories taxonomy when ACF is active
+- Automatic ACF field group for team member details
 - Elementor team showcase widget
 - Grid and table layout toggle
 - Category/department filtering
@@ -35,7 +38,13 @@ WS Team Showcase Plugin adds a customizable Elementor widget for displaying team
 
 ## Team Member Content
 
-The widget can display any selected public post type. For team member details, add these fields to the selected post type:
+When Advanced Custom Fields is active, the plugin automatically registers:
+
+- `Team Members` post type (`ws_team`)
+- `Team Categories` taxonomy (`team_category`)
+- `Team Member Details` ACF field group
+
+The generated ACF fields are:
 
 - `designation`
 - `experience`
@@ -44,6 +53,8 @@ The widget can display any selected public post type. For team member details, a
 - `instagram`
 
 The post title is used as the team member name, the featured image is used as the profile image, and the post content is used for the popup and short bio.
+
+If ACF is not active, the plugin will not register the Team Members post type, taxonomy, or field group. Activate ACF first, then activate or reload this plugin.
 
 ## Widget Settings
 
