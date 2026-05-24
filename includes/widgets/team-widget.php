@@ -88,15 +88,52 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
 
     private function get_filter_taxonomy($post_type) {
         $taxonomies = get_object_taxonomies($post_type, 'names');
-        $preferred = ['team_category', 'team-category', 'category'];
+        $preferred = ['department', 'departments', 'team_department', 'ws_department', 'team_category', 'team-category', 'category'];
+        $candidates = array_values(array_unique(array_merge(
+            array_values(array_intersect($preferred, $taxonomies)),
+            $taxonomies
+        )));
+        $best_taxonomy = '';
+        $best_count = 0;
 
-        foreach ($preferred as $taxonomy) {
-            if (in_array($taxonomy, $taxonomies, true)) {
+        foreach ($candidates as $taxonomy) {
+            $count = $this->get_taxonomy_term_count($taxonomy, true);
+
+            if ($count > $best_count) {
+                $best_taxonomy = $taxonomy;
+                $best_count = $count;
+            }
+        }
+
+        if ($best_taxonomy) {
+            return $best_taxonomy;
+        }
+
+        foreach ($candidates as $taxonomy) {
+            if ($this->get_taxonomy_term_count($taxonomy, false) > 0) {
                 return $taxonomy;
             }
         }
 
         return $taxonomies[0] ?? '';
+    }
+
+    private function get_taxonomy_term_count($taxonomy, $hide_empty) {
+        if (!taxonomy_exists($taxonomy)) {
+            return 0;
+        }
+
+        $terms = get_terms([
+            'taxonomy' => $taxonomy,
+            'hide_empty' => $hide_empty,
+            'fields' => 'ids',
+        ]);
+
+        if (is_wp_error($terms)) {
+            return 0;
+        }
+
+        return count($terms);
     }
 
     protected function register_controls() {
@@ -1360,9 +1397,9 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
         $filter_taxonomy = $this->get_filter_taxonomy($settings['post_type']);
         $filter_terms = $filter_taxonomy ? get_terms([
             'taxonomy' => $filter_taxonomy,
-            'hide_empty' => true,
+            'hide_empty' => false,
         ]) : [];
-        $show_filter = ($settings['show_filter'] ?? '') === 'yes' && $filter_taxonomy && !is_wp_error($filter_terms) && $filter_terms;
+        $show_filter = ($settings['show_filter'] ?? '') === 'yes' && $filter_taxonomy && !is_wp_error($filter_terms);
         $show_dark_mode = ($settings['show_dark_mode'] ?? '') === 'yes';
         $show_layout_toggle = ($settings['show_layout_toggle'] ?? '') === 'yes';
         $toggle_id = 'ws-team-dark-toggle-' . $this->get_id();
