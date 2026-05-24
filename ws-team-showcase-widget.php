@@ -2,7 +2,7 @@
 <?php
 /**
  * Plugin Name: WS Team Showcase Plugin
- * Plugin URI: https://example.com
+ * Plugin URI: https://github.com/debjit-dey-2000/ws-team-showcase-widget.git
  * Description: A lightweight Elementor widget for displaying team members with filters, layouts, popups, and AJAX loading.
  * Version: 1.0.0
  * Author: Debjit Dey (WS01530)
