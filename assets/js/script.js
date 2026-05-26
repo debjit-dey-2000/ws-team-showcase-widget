@@ -53,22 +53,25 @@ jQuery(document).ready(function($){
         }
     }
 
-    $(document).on('change', '.ws-team-category-filter', function(){
+    function wsTeamGetSearch(wrapper){
+        return $.trim(wrapper.find('.ws-team-search-input').val() || '');
+    }
 
-        let select = $(this);
-        let wrapper = select.closest('.ws-team-wrapper');
+    function wsTeamRefresh(wrapper){
         let grid = wrapper.find('.ws-team-grid');
-        let filterWrap = select.closest('.ws-team-filter-wrap');
+        let searchInput = wrapper.find('.ws-team-search-input');
+        let search = wsTeamGetSearch(wrapper);
         let loadStartedAt = Date.now();
         let loadId = loadStartedAt + '-' + Math.random();
         let skeletonCount = Math.max(grid.find('.ws-team-card').length, 3);
-        let nextGridHtml = '<div class="ws-team-empty">No team members found.</div>';
+        let nextGridHtml = '<div class="ws-team-empty">No Team Members Found!</div>';
         let nextLoadMoreHtml = '';
 
         wrapper.data('wsTeamLoadId', loadId);
-        wrapper.data('term-id', select.val());
+        wrapper.data('term-id', wrapper.find('.ws-team-category-filter').val() || 0);
+        wrapper.data('search', search);
         grid.addClass('ws-team-grid-loading');
-        filterWrap.addClass('ws-team-filter-loading');
+        searchInput.addClass('ws-team-search-loading');
         wrapper.find('.ws-team-load-more-wrap').remove();
         grid.html(wsTeamSkeletonCards(skeletonCount));
 
@@ -79,7 +82,8 @@ jQuery(document).ready(function($){
             data:{
                 action:'ws_team_filter',
                 nonce:wsTeam.filterNonce,
-                term_id:select.val(),
+                term_id:wrapper.data('term-id') || 0,
+                search:search,
                 post_type:wrapper.data('post-type'),
                 taxonomy:wrapper.data('taxonomy'),
                 orderby:wrapper.data('orderby'),
@@ -103,14 +107,53 @@ jQuery(document).ready(function($){
 
                     grid.html(nextGridHtml);
                     grid.removeClass('ws-team-grid-loading');
-                    filterWrap.removeClass('ws-team-filter-loading');
+                    searchInput.removeClass('ws-team-search-loading');
                     wsTeamSyncLoadMore(wrapper, nextLoadMoreHtml);
                     wsTeamSyncTableHeader(wrapper);
                 }, delay);
             }
         });
+    }
 
+    $(document).on('change', '.ws-team-category-filter', function(){
+        wsTeamRefresh($(this).closest('.ws-team-wrapper'));
     });
+
+    $(document).on('input', '.ws-team-search-input', function(){
+
+        let input = $(this);
+        let wrapper = input.closest('.ws-team-wrapper');
+        let search = $.trim(input.val() || '');
+        let previousSearch = wrapper.data('search') || '';
+
+        input.removeClass('ws-team-search-invalid');
+        clearTimeout(input.data('wsTeamSearchTimer'));
+
+        if (!search) {
+            if (previousSearch) {
+                wrapper.data('search', '');
+                input.data('wsTeamSearchTimer', setTimeout(function(){
+                    wsTeamRefresh(wrapper);
+                }, 350));
+            }
+            return;
+        }
+
+        input.data('wsTeamSearchTimer', setTimeout(function(){
+            wsTeamRefresh(wrapper);
+        }, 350));
+    });
+
+    $(document).on('keydown', '.ws-team-search-input', function(event){
+        if (event.key === 'Enter') {
+            event.preventDefault();
+
+            if (!$.trim($(this).val() || '')) {
+                $(this).addClass('ws-team-search-invalid');
+            }
+        }
+    });
+
 
     $(document).on('change', '.ws-dark-toggle-input', function(){
 
@@ -171,6 +214,7 @@ jQuery(document).ready(function($){
                 nonce:wsTeam.filterNonce,
                 page:button.data('page'),
                 term_id:wrapper.data('term-id') || 0,
+                search:wrapper.data('search') || wsTeamGetSearch(wrapper),
                 post_type:wrapper.data('post-type'),
                 taxonomy:wrapper.data('taxonomy'),
                 orderby:wrapper.data('orderby'),
@@ -227,8 +271,14 @@ jQuery(document).ready(function($){
                     .html(response);
                 overlay.addClass('ws-popup-overlay-visible');
 
+                if (popup[0]) {
+                    popup[0].offsetHeight;
+                }
+
                 requestAnimationFrame(function(){
-                    popup.addClass('ws-popup-visible');
+                    requestAnimationFrame(function(){
+                        popup.addClass('ws-popup-visible');
+                    });
                 });
 
             }
