@@ -55,6 +55,10 @@ class WS_Team_Showcase_Init {
             return;
         }
 
+        if (function_exists('acf_get_post_type') && acf_get_post_type('post_type_ws_team')) {
+            return;
+        }
+
         register_post_type(
             'ws_team',
             [
@@ -88,6 +92,7 @@ class WS_Team_Showcase_Init {
             return;
         }
 
+        self::create_acf_team_post_type();
         self::create_acf_team_taxonomy();
         self::create_acf_team_fields();
     }
@@ -97,6 +102,60 @@ class WS_Team_Showcase_Init {
             flush_rewrite_rules();
             update_option('ws_team_showcase_rewrite_flushed', 'yes');
         }
+    }
+
+    private static function create_acf_team_post_type() {
+        if (!function_exists('acf_get_post_type') || !function_exists('acf_update_post_type')) {
+            return;
+        }
+
+        if (acf_get_post_type('post_type_ws_team')) {
+            return;
+        }
+
+        acf_update_post_type([
+            'key' => 'post_type_ws_team',
+            'title' => 'Team Members',
+            'post_type' => 'ws_team',
+            'labels' => [
+                'name' => 'Team Members',
+                'singular_name' => 'Team Member',
+                'menu_name' => 'Team Members',
+                'all_items' => 'All Team Members',
+                'add_new' => 'Add New',
+                'add_new_item' => 'Add New Team Member',
+                'edit_item' => 'Edit Team Member',
+                'new_item' => 'New Team Member',
+                'view_item' => 'View Team Member',
+                'view_items' => 'View Team Members',
+                'search_items' => 'Search Team Members',
+                'not_found' => 'No team members found',
+                'not_found_in_trash' => 'No team members found in trash',
+                'featured_image' => 'Team Member Image',
+                'set_featured_image' => 'Set team member image',
+                'remove_featured_image' => 'Remove team member image',
+                'use_featured_image' => 'Use as team member image',
+            ],
+            'public' => true,
+            'publicly_queryable' => true,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'show_in_admin_bar' => true,
+            'show_in_nav_menus' => true,
+            'show_in_rest' => true,
+            'menu_icon' => 'dashicons-groups',
+            'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+            'taxonomies' => ['team_category'],
+            'has_archive' => true,
+            'rewrite' => [
+                'permalink_rewrite' => 'custom_permalink',
+                'slug' => 'team',
+                'feeds' => false,
+                'pages' => true,
+                'with_front' => true,
+            ],
+            'active' => true,
+        ]);
     }
 
     private static function create_acf_team_taxonomy() {
