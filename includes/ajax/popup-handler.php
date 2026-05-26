@@ -120,6 +120,7 @@ if (!function_exists('ws_team_showcase_get_query_args')) {
         $post_type = isset($params['post_type']) ? sanitize_key($params['post_type']) : 'post';
         $taxonomy = isset($params['taxonomy']) ? sanitize_key($params['taxonomy']) : '';
         $term_id = isset($params['term_id']) ? absint($params['term_id']) : 0;
+        $search = isset($params['search']) ? sanitize_text_field(wp_unslash($params['search'])) : '';
         $orderby = isset($params['orderby']) && in_array($params['orderby'], $allowed_orderby, true) ? $params['orderby'] : 'date';
         $order = isset($params['order']) && strtoupper($params['order']) === 'ASC' ? 'ASC' : 'DESC';
         $paged = isset($params['paged']) ? max(1, absint($params['paged'])) : 1;
@@ -132,6 +133,10 @@ if (!function_exists('ws_team_showcase_get_query_args')) {
             'orderby' => $orderby,
             'order' => $order,
         ];
+
+        if ($search !== '') {
+            $args['s'] = $search;
+        }
 
         if ($taxonomy && $term_id && taxonomy_exists($taxonomy)) {
             $args['tax_query'] = [
@@ -230,6 +235,7 @@ function ws_team_filter_callback() {
         'post_type' => $_POST['post_type'] ?? 'post',
         'taxonomy' => $_POST['taxonomy'] ?? '',
         'term_id' => $_POST['term_id'] ?? 0,
+        'search' => $_POST['search'] ?? '',
         'orderby' => $_POST['orderby'] ?? 'date',
         'order' => $_POST['order'] ?? 'DESC',
         'posts_per_page' => $_POST['posts_per_page'] ?? 8,
@@ -255,6 +261,7 @@ function ws_team_load_more_callback() {
         'post_type' => $_POST['post_type'] ?? 'post',
         'taxonomy' => $_POST['taxonomy'] ?? '',
         'term_id' => $_POST['term_id'] ?? 0,
+        'search' => $_POST['search'] ?? '',
         'orderby' => $_POST['orderby'] ?? 'date',
         'order' => $_POST['order'] ?? 'DESC',
         'posts_per_page' => $_POST['posts_per_page'] ?? 8,
