@@ -206,6 +206,18 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
+            'show_search',
+            [
+                'label' => 'Search Field',
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => 'Show',
+                'label_off' => 'Hide',
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
             'show_dark_mode',
             [
                 'label' => 'Dark Mode Toggle',
@@ -324,6 +336,250 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
                 ]
             ]
         );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'department_filter_style',
+            [
+                'label' => 'Department Filter',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'department_filter_typography',
+                'selector' => '{{WRAPPER}} .ws-team-category-filter'
+            ]
+        );
+
+        $this->start_controls_tabs('department_filter_tabs');
+
+        $this->start_controls_tab(
+            'department_filter_normal_tab',
+            [
+                'label' => 'Normal',
+            ]
+        );
+
+        $this->add_control(
+            'department_filter_color',
+            [
+                'label' => 'Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter' => 'color: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'department_filter_bg',
+            [
+                'label' => 'Background Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter' => 'background: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'department_filter_focus_tab',
+            [
+                'label' => 'Focus',
+            ]
+        );
+
+        $this->add_control(
+            'department_filter_focus_color',
+            [
+                'label' => 'Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter:focus' => 'color: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'department_filter_focus_bg',
+            [
+                'label' => 'Background Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter:focus' => 'background: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'department_filter_focus_border_color',
+            [
+                'label' => 'Border Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter:focus' => 'border-color: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->add_responsive_control(
+            'department_filter_padding',
+            [
+                'label' => 'Padding',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter' =>
+                    'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                ]
+            ]
+        );
+
+        $this->add_responsive_control(
+            'department_filter_radius',
+            [
+                'label' => 'Border Radius',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-category-filter' =>
+                    'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                ]
+            ]
+        );
+
+        $this->add_responsive_border_controls('department_filter', '{{WRAPPER}} .ws-team-category-filter');
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'search_field_style',
+            [
+                'label' => 'Search Field',
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'search_field_typography',
+                'selector' => '{{WRAPPER}} .ws-team-search-input'
+            ]
+        );
+
+        $this->start_controls_tabs('search_field_tabs');
+
+        $this->start_controls_tab(
+            'search_field_normal_tab',
+            [
+                'label' => 'Normal',
+            ]
+        );
+
+        $this->add_control(
+            'search_field_color',
+            [
+                'label' => 'Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input' => 'color: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'search_field_bg',
+            [
+                'label' => 'Background Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input' => 'background: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'search_field_focus_tab',
+            [
+                'label' => 'Focus',
+            ]
+        );
+
+        $this->add_control(
+            'search_field_focus_color',
+            [
+                'label' => 'Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input:focus' => 'color: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'search_field_focus_bg',
+            [
+                'label' => 'Background Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input:focus' => 'background: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->add_control(
+            'search_field_focus_border_color',
+            [
+                'label' => 'Border Color',
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input:focus' => 'border-color: {{VALUE}}'
+                ]
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->add_responsive_control(
+            'search_field_padding',
+            [
+                'label' => 'Padding',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input' =>
+                    'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                ]
+            ]
+        );
+
+        $this->add_responsive_control(
+            'search_field_radius',
+            [
+                'label' => 'Border Radius',
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'selectors' => [
+                    '{{WRAPPER}} .ws-team-search-input' =>
+                    'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}'
+                ]
+            ]
+        );
+
+        $this->add_responsive_border_controls('search_field', '{{WRAPPER}} .ws-team-search-input');
 
         $this->end_controls_section();
 
@@ -1400,6 +1656,7 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
             'hide_empty' => false,
         ]) : [];
         $show_filter = ($settings['show_filter'] ?? '') === 'yes' && $filter_taxonomy && !is_wp_error($filter_terms);
+        $show_search = ($settings['show_search'] ?? '') === 'yes';
         $show_dark_mode = ($settings['show_dark_mode'] ?? '') === 'yes';
         $show_layout_toggle = ($settings['show_layout_toggle'] ?? '') === 'yes';
         $toggle_id = 'ws-team-dark-toggle-' . $this->get_id();
@@ -1431,19 +1688,34 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
             data-posts-per-page="8"
         >
 
-            <?php if ($show_filter || $show_dark_mode || $show_layout_toggle) : ?>
+            <?php if ($show_filter || $show_search || $show_dark_mode || $show_layout_toggle) : ?>
                 <div class="ws-team-topbar">
-                    <?php if ($show_filter) : ?>
-                        <div class="ws-team-filter-wrap">
-                            <select class="ws-team-category-filter" aria-label="Team Categories">
-                                <option value="0">All Departments</option>
-                                <?php foreach ($filter_terms as $term) : ?>
-                                    <option value="<?php echo esc_attr($term->term_id); ?>">
-                                        <?php echo esc_html($term->name); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <span class="ws-team-filter-loader" aria-hidden="true"></span>
+                    <?php if ($show_filter || $show_search) : ?>
+                        <div class="ws-team-filter-row">
+                            <?php if ($show_filter) : ?>
+                                <div class="ws-team-filter-wrap">
+                                    <select class="ws-team-category-filter" aria-label="Team Categories">
+                                        <option value="0">All Departments</option>
+                                        <?php foreach ($filter_terms as $term) : ?>
+                                            <option value="<?php echo esc_attr($term->term_id); ?>">
+                                                <?php echo esc_html($term->name); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($show_search) : ?>
+                                <div class="ws-team-search-wrap">
+                                    <input
+                                        type="search"
+                                        class="ws-team-search-input"
+                                        placeholder="Search team members"
+                                        aria-label="Search team members"
+                                        autocomplete="off"
+                                    />
+                                </div>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
 
@@ -1473,10 +1745,14 @@ class WS_Team_Widget extends \Elementor\Widget_Base {
 
             <div class="ws-team-grid">
 
-                <?php while($query->have_posts()) : $query->the_post(); ?>
-                    <?php echo ws_team_showcase_render_card(get_the_ID()); ?>
+                <?php if ($query->have_posts()) : ?>
+                    <?php while($query->have_posts()) : $query->the_post(); ?>
+                        <?php echo ws_team_showcase_render_card(get_the_ID()); ?>
 
-                <?php endwhile; wp_reset_postdata(); ?>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                <?php else : ?>
+                    <div class="ws-team-empty">No Team Members Found!</div>
+                <?php endif; ?>
 
             </div>
 
