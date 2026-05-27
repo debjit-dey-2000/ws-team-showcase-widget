@@ -41,7 +41,7 @@ WS Team Showcase Plugin adds a customizable Elementor widget for displaying team
 
 ## Folder Structure
 
-<img width="247" height="195" alt="image" src="https://github.com/user-attachments/assets/3a5112c4-ef59-4bb8-9fc3-a6290a0f523f" />
+<img width="285" height="225" alt="image" src="https://github.com/user-attachments/assets/b6ae1ef1-bb2a-45ca-ab4f-628cfaf961aa" />
 
 
 ## Team Member Content
