@@ -42,15 +42,14 @@ WS Team Showcase Plugin adds a customizable Elementor widget for displaying team
 ## Folder Structure
 
 ws-team-showcase-widget/
-├── assets/
-│ ├── css/
-│ ├── js/
-│ └── images/
-├── includes/
-│ ├── widgets/
-│ └── ajax/
-├── ws-team-showcase-widget.php
-└── README.md
+-assets/
+--css/style.css
+--js/script.js
+-includes/
+--ajax/popup-handler.php
+--widgets/team-widget.php
+-README.md
+-ws-team-showcase-widget.php
 
 ## Team Member Content
 
