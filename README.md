@@ -39,6 +39,19 @@ WS Team Showcase Plugin adds a customizable Elementor widget for displaying team
 4. Edit a page with Elementor.
 5. Search for `WS Team Showcase` and add the widget to the page.
 
+## Folder Structure
+
+ws-team-showcase-widget/
+├── assets/
+│ ├── css/
+│ ├── js/
+│ └── images/
+├── includes/
+│ ├── widgets/
+│ └── ajax/
+├── ws-team-showcase-widget.php
+└── README.md
+
 ## Team Member Content
 
 When Advanced Custom Fields is active, the plugin automatically registers:
